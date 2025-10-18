@@ -1,0 +1,140 @@
+<!doctype html>
+<html>
+  <head>
+    <title>LDS Church Policy Chat Bot</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 40px;
+        line-height: 1.5;
+      }
+      h1 {
+        margin-bottom: 0;
+        text-align: center;
+      }
+      h3 {
+        margin-top: 5px;
+        text-align: center;
+        color: #555;
+        font-weight: normal;
+      }
+      #about {
+        max-width: 700px;
+        margin: 30px auto;
+        background: #f8f9fa;
+        padding: 15px 25px;
+        border-radius: 10px;
+        box-shadow: 0 0 5px rgba(0,0,0,0.1);
+      }
+      form {
+        text-align: center;
+        margin-top: 30px;
+      }
+      input {
+        width: 60%;
+        padding: 10px;
+        font-size: 1rem;
+      }
+      button {
+        padding: 10px 15px;
+        font-size: 1rem;
+      }
+      pre {
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        max-width: 80ch;
+        margin: 30px auto;
+        padding: 15px;
+        background: #f3f3f3;
+        border-radius: 8px;
+      }
+      .src {
+        background: #f8f9fa;
+        border: 1px solid #eee;
+        border-radius: 8px;
+        padding: 10px 12px;
+        margin: 10px 0;
+      }
+      footer {
+        text-align: center;
+        margin-top: 40px;
+        color: #666;
+        font-size: 0.9rem;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>LDS Church Policy Chatbot</h1>
+    <h3><em>Ask questions and explore official Church policy information</em></h3>
+
+    <section id="about">
+      <h2>About This Tool</h2>
+      <p>
+        This chatbot was created to provide clear, summarized responses to
+        questions about official Church of Jesus Christ of Latter-day Saints
+        policies and guidelines. It uses a retrieval-based system that searches
+        policy documents and returns concise explanations with references.
+      </p>
+    </section>
+
+    <form id="chatForm">
+      <input id="question" placeholder="Ask a question about LDS Church Policy..." autofocus />
+      <button type="submit">Ask</button>
+    </form>
+
+    <pre id="response"></pre>
+
+    <footer>
+      Created by: <strong>Tanner Rapp</strong>
+    </footer>
+
+    <script>
+      const sidKey = "ldsbot_sid";
+      let sid = localStorage.getItem(sidKey);
+      if (!sid) {
+        sid = Math.random().toString(36).slice(2) + Date.now().toString(36);
+        localStorage.setItem(sidKey, sid);
+      }
+
+      const form = document.getElementById("chatForm");
+      const out  = document.getElementById("response");
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const box = document.getElementById("question");
+        const question = box.value.trim();
+        if (!question) { out.textContent = "Please type a question."; return; }
+
+        out.textContent = "Thinking…";
+        box.value = ""; // clear input box
+
+        try {
+          const res = await fetch("/ask", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ question, session_id: sid }),
+          });
+          const data = await res.json();
+
+          if (!res.ok) { out.textContent = data.error || "Error"; return; }
+
+          const esc = (s) => String(s||"").replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+          let html = `<h3>Answer</h3><p>${esc(data.answer || "")}</p>`;
+          if (Array.isArray(data.sources) && data.sources.length) {
+            html += `<h3>Sources</h3>` + data.sources.map(s => `
+              <div class="src">
+                <div><strong>Source:</strong> ${esc(s.source)} — <strong>Page:</strong> ${esc(s.page_label)}</div>
+                <div>${esc(s.snippet)}</div>
+              </div>
+            `).join("");
+          } else {
+            html += `<p><em>No sources returned.</em></p>`;
+          }
+          out.innerHTML = html;
+        } catch (err) {
+          out.textContent = "Network error: " + err;
+        }
+      });
+    </script>
+  </body>
+</html>
