@@ -1,11 +1,23 @@
+# --- Web app ---
 flask
 flask-cors
+gunicorn
 python-dotenv
+
+# --- LangChain ecosystem ---
 langchain
 langchain-core
 langchain-community
 langchain-huggingface
 langchain-openai
-openai>=1.0.0
+
+# --- Vector stores & embeddings ---
 faiss-cpu
-gunicorn
+sentence-transformers
+huggingface-hub
+
+# --- OpenAI API client ---
+openai>=1.0.0
+
+# --- Optional but safe to include ---
+tiktoken
