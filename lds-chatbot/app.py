@@ -45,7 +45,7 @@ from langchain_core.runnables.history import RunnableWithMessageHistory
 BASE_DIR = os.path.dirname(__file__)  # folder where app.py lives
 pdf_path = os.path.join(BASE_DIR, "general_handbook_serving_in_the_church_of_jesus_christ_of_latter_day_saints.pdf")
 
-loader = PyPDFLoader(pdf)
+loader = PyPDFLoader(pdf_path)
 pages = loader.load()
 print(f"✅ Loaded {len(pages)} pages.")
 
@@ -139,7 +139,7 @@ print("OPENAI_API_KEY ->", os.getenv("OPENAI_API_KEY"))
 
 
 # Accessing API Key from local storage
-load_dotenv(encoding="utf-8-sig", override=True)
+load_dotenv)
 
 
 # In[10]:
