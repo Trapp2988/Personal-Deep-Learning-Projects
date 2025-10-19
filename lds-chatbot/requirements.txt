@@ -8,8 +8,10 @@ python-dotenv
 langchain
 langchain-core
 langchain-community
-langchain-huggingface
 langchain-openai
+langchain-huggingface
+langchain-text-splitters
+
 
 # --- Vector stores & embeddings ---
 faiss-cpu
