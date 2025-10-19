@@ -1,19 +1,19 @@
-# --- Core Web ---
+# Web + env
 flask
 gunicorn
 python-dotenv
 
-# --- LangChain Ecosystem (compatible versions) ---
+# LangChain stack (compatible pins)
 langchain==0.3.7
-langchain-core==0.3.15
+langchain-core==0.3.17
 langchain-community==0.3.7
 langchain-openai==0.2.3
 langchain-huggingface==0.1.2
 langchain-text-splitters==0.3.2
 
-# --- Vector Storage & Embeddings ---
+# Vectors + embeddings
 faiss-cpu
+pypdf
 transformers
 torch
 sentence-transformers
-pypdf
