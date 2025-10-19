@@ -5,13 +5,12 @@ gunicorn
 python-dotenv
 
 # --- LangChain ecosystem ---
-langchain
-langchain-core
-langchain-community
-langchain-openai
-langchain-huggingface
-langchain-text-splitters
-
+langchain==0.2.16
+langchain-core==0.2.38
+langchain-community==0.2.17
+langchain-openai==0.1.23
+langchain-huggingface==0.1.0
+langchain-text-splitters==0.2.2
 
 # --- Vector stores & embeddings ---
 faiss-cpu
