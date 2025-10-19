@@ -1,24 +1,19 @@
-# --- Web app ---
+# --- Core Web ---
 flask
-flask-cors
 gunicorn
 python-dotenv
 
-# --- LangChain ecosystem ---
-langchain==0.2.16
-langchain-core==0.2.38
-langchain-community==0.2.17
-langchain-openai==0.1.23
-langchain-huggingface==0.1.0
-langchain-text-splitters==0.2.2
+# --- LangChain Ecosystem (compatible versions) ---
+langchain==0.3.7
+langchain-core==0.3.15
+langchain-community==0.3.7
+langchain-openai==0.2.3
+langchain-huggingface==0.1.2
+langchain-text-splitters==0.3.2
 
-# --- Vector stores & embeddings ---
+# --- Vector Storage & Embeddings ---
 faiss-cpu
+transformers
+torch
 sentence-transformers
-huggingface-hub
-
-# --- OpenAI API client ---
-openai>=1.0.0
-
-# --- Optional but safe to include ---
-tiktoken
+pypdf
